@@ -1,6 +1,6 @@
 package Web::Request::Role::JSON;
 
-# ABSTRACT: JSON helpers for Web::Request
+# ABSTRACT: Make handling JSON easier in Web::Request
 
 our $VERSION = '1.000';
 
@@ -26,13 +26,20 @@ sub decoded_json_content {
 }
 
 sub new_json_response {
-    my ( $self, $data, $header_hash, $status ) = @_;
-    my $headers =
-        ref($header_hash)
-        ? HTTP::Headers->new(%$header_hash)
-        : HTTP::Headers->new;
-    $headers->header( 'content-type' => 'application/json' );
+    my ( $self, $data, $header_ref, $status ) = @_;
+
     $status ||= 200;
+    my $headers;
+    if ($header_ref) {
+        if (ref($header_ref) eq 'ARRAY') {
+            $headers = HTTP::Headers->new(@$header_ref);
+        }
+        elsif (ref($header_ref) eq 'HASH') {
+            $headers = HTTP::Headers->new(%$header_ref);
+        }
+    }
+    $headers ||= HTTP::Headers->new;
+    $headers->header( 'content-type' => 'application/json' );
 
     return $self->new_response(
         headers => $headers,

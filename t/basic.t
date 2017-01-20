@@ -50,6 +50,10 @@ my $handler = builder {
             $res = $req->new_json_response( { value => 'töst' },
                 { 'X-Test' => 42 } );
         }
+        elsif ( $path eq '/get/headerarray' ) {
+            $res = $req->new_json_response( { value => 'töst' },
+                [ 'X-Test' => 42, 'X-Test' => 43 ] );
+        }
         elsif ( $path eq '/get/201' ) {
             $res =
                 $req->new_json_response( { value => 'created' }, undef, 201 );
@@ -77,13 +81,31 @@ test_psgi(
     client => sub {
         my $cb = shift;
 
-        subtest 'decoded_json_content' => sub {
+        subtest 'decoded_json_content int' => sub {
             my $req = HTTP::Request->new(
                 POST => 'http://localhost/post',
                 [ 'Content-Type' => 'application/json' ], '{"value":42}'
             );
             my $res = $cb->($req);
-            is( $res->content, '42', 'content' );
+            is( $res->content, 42, 'content' );
+        };
+
+        subtest 'decoded_json_content string' => sub {
+            my $req = HTTP::Request->new(
+                POST => 'http://localhost/post',
+                [ 'Content-Type' => 'application/json' ], '{"value":"foo"}'
+            );
+            my $res = $cb->($req);
+            is( $res->content, 'foo', 'content' );
+        };
+
+        subtest 'decoded_json_content bool' => sub {
+            my $req = HTTP::Request->new(
+                POST => 'http://localhost/post',
+                [ 'Content-Type' => 'application/json' ], '{"value":false}'
+            );
+            my $res = $cb->($req);
+            is( $res->content, 0, 'content' );
         };
 
         subtest 'decoded_json_content utf8' => sub {
@@ -127,6 +149,12 @@ test_psgi(
             is( $res->code,             200,                'status' );
             is( $res->content_type,     'application/json', 'content-type' );
             is( $res->header('x-test'), 42,                 'extra header' );
+        };
+        subtest 'new_json_response headerarray' => sub {
+            my $res = $cb->( GET "http://localhost/get/headerarray" );
+            is( $res->code,             200,                'status' );
+            is( $res->content_type,     'application/json', 'content-type' );
+            is( $res->header('x-test'), '42, 43',           'extra header' );
         };
 
         subtest 'new_json_response 201' => sub {
