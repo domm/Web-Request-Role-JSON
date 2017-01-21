@@ -2,7 +2,7 @@ package Web::Request::Role::JSON;
 
 # ABSTRACT: Make handling JSON easier in Web::Request
 
-our $VERSION = '1.000';
+our $VERSION = '1.001';
 
 use 5.010;
 use Moose::Role;

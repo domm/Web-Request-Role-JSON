@@ -1,3 +1,4 @@
 local/
 .build/
 Web-Request-Role-JSON*
+cpanfile.snapshot

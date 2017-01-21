@@ -1,5 +1,9 @@
 Revision history for Web::Request::Role::JSON
 
+1.001   2017-01-21T15:34:10
+    - remove 'new_' from response methods names (Thomas Klausner)
+
+
 1.000   2017-01-20T17:08:55
     - added tests & docs
     - extracted from Validad::Tools
