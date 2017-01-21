@@ -25,7 +25,7 @@ sub decoded_json_content {
     # - set $self->encoding(undef), and set it back after decoding
 }
 
-sub new_json_response {
+sub json_response {
     my ( $self, $data, $header_ref, $status ) = @_;
 
     $status ||= 200;
@@ -48,7 +48,7 @@ sub new_json_response {
     );
 }
 
-sub new_json_error {
+sub json_error {
     my ( $self, $message, $status ) = @_;
     $status ||= 400;
     my $body;
@@ -86,7 +86,7 @@ sub new_json_error {
 
       my $data    = $req->decoded_json_content;
       my $created = $self->model->create($data);
-      return $self->new_json_response($created, undef, 201);
+      return $self->json_response($created, undef, 201);
   }
 
 =head1 DESCRIPTION
@@ -107,11 +107,11 @@ PSGI response.
 
 Extracts and decodes a JSON payload from the request.
 
-=head3 new_json_response
+=head3 json_response
 
-  $req->new_json_response( $data );
-  $req->new_json_response( $data, $header_ref );
-  $req->new_json_response( $data, $header_ref, $http_status );
+  $req->json_response( $data );
+  $req->json_response( $data, $header_ref );
+  $req->json_response( $data, $header_ref, $http_status );
 
 Convert your data to JSON and generate a new response with correct HTTP headers.
 
@@ -122,11 +122,11 @@ C<< HTTP::Headers->new() >>.
 You can also pass a HTTP status code as the third parameter. If none
 is provided, we default to C<200>.
 
-=head3 new_json_error
+=head3 json_error
 
-  $req->new_json_response( 'something is wrong' );
-  $req->new_json_response( $error_data );
-  $req->new_json_response( $error, $status );
+  $req->json_response( 'something is wrong' );
+  $req->json_response( $error_data );
+  $req->json_response( $error, $status );
 
 Generate a JSON object out of your error message, if the message is a
 plain string. But you can also pass in a data structure that will be

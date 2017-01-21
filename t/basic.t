@@ -39,36 +39,36 @@ my $handler = builder {
             ];
         }
 
-        # new_json_response
+        # json_response
         elsif ( $path eq '/get/plain' ) {
-            $res = $req->new_json_response( { value => 'plain' } );
+            $res = $req->json_response( { value => 'plain' } );
         }
         elsif ( $path eq '/get/utf8' ) {
-            $res = $req->new_json_response( { value => 'töst' } );
+            $res = $req->json_response( { value => 'töst' } );
         }
         elsif ( $path eq '/get/header' ) {
-            $res = $req->new_json_response( { value => 'töst' },
+            $res = $req->json_response( { value => 'töst' },
                 { 'X-Test' => 42 } );
         }
         elsif ( $path eq '/get/headerarray' ) {
-            $res = $req->new_json_response( { value => 'töst' },
+            $res = $req->json_response( { value => 'töst' },
                 [ 'X-Test' => 42, 'X-Test' => 43 ] );
         }
         elsif ( $path eq '/get/201' ) {
             $res =
-                $req->new_json_response( { value => 'created' }, undef, 201 );
+                $req->json_response( { value => 'created' }, undef, 201 );
         }
 
-        # new_json_error
+        # json_error
         elsif ( $path eq '/error/string' ) {
-            $res = $req->new_json_error("crash");
+            $res = $req->json_error("crash");
         }
         elsif ( $path eq '/error/hash' ) {
             $res =
-                $req->new_json_error( { is_error => 1, message => "crash" } );
+                $req->json_error( { is_error => 1, message => "crash" } );
         }
         elsif ( $path eq '/error/406' ) {
-            $res = $req->new_json_error( "flabbergasted", 406 );
+            $res = $req->json_error( "flabbergasted", 406 );
         }
 
         return $res->finalize;
@@ -128,7 +128,7 @@ test_psgi(
                 'töst', 'decoded json literal utf8' );
         };
 
-        subtest 'new_json_response plain' => sub {
+        subtest 'json_response plain' => sub {
             my $res = $cb->( GET "http://localhost/get/plain" );
             is( $res->code, 200, 'status' );
             is( $res->content_type, 'application/json', 'content-type' );
@@ -136,7 +136,7 @@ test_psgi(
                 'content' );
         };
 
-        subtest 'new_json_response utf8' => sub {
+        subtest 'json_response utf8' => sub {
             my $res = $cb->( GET "http://localhost/get/utf8" );
             is( $res->code, 200, 'status' );
             is( $res->content_type, 'application/json', 'content-type' );
@@ -144,27 +144,27 @@ test_psgi(
                 'content' );
         };
 
-        subtest 'new_json_response header' => sub {
+        subtest 'json_response header' => sub {
             my $res = $cb->( GET "http://localhost/get/header" );
             is( $res->code,             200,                'status' );
             is( $res->content_type,     'application/json', 'content-type' );
             is( $res->header('x-test'), 42,                 'extra header' );
         };
-        subtest 'new_json_response headerarray' => sub {
+        subtest 'json_response headerarray' => sub {
             my $res = $cb->( GET "http://localhost/get/headerarray" );
             is( $res->code,             200,                'status' );
             is( $res->content_type,     'application/json', 'content-type' );
             is( $res->header('x-test'), '42, 43',           'extra header' );
         };
 
-        subtest 'new_json_response 201' => sub {
+        subtest 'json_response 201' => sub {
             my $res = $cb->( GET "http://localhost/get/201" );
             is( $res->code, 201, 'status 201' );
             is( decode_utf8( $res->content ),
                 '{"value":"created"}', 'content' );
         };
 
-        subtest 'new_json_error string' => sub {
+        subtest 'json_error string' => sub {
             my $res = $cb->( GET "http://localhost/error/string" );
             is( $res->code, 400, 'status 400' );
             is( $res->content_type, 'application/json', 'content-type' );
@@ -172,7 +172,7 @@ test_psgi(
             is( $data->{status},  'error', 'content.status' );
             is( $data->{message}, 'crash', 'content.message' );
         };
-        subtest 'new_json_error hash' => sub {
+        subtest 'json_error hash' => sub {
             my $res = $cb->( GET "http://localhost/error/hash" );
             is( $res->code, 400, 'status 400' );
             is( $res->content_type, 'application/json', 'content-type' );
@@ -180,7 +180,7 @@ test_psgi(
             is( $data->{is_error}, 1,       'content.is_error' );
             is( $data->{message},  'crash', 'content.message' );
         };
-        subtest 'new_json_error 406' => sub {
+        subtest 'json_error 406' => sub {
             my $res = $cb->( GET "http://localhost/error/406" );
             is( $res->code, 406, 'status 406' );
             is( $res->content_type, 'application/json', 'content-type' );
