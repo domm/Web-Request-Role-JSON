@@ -29,9 +29,9 @@ my $handler = builder {
 
         my $res;
 
-        # decoded_json_content
+        # json_payload
         if ( $path eq '/post' ) {
-            my $data = $req->decoded_json_content;
+            my $data = $req->json_payload;
             return [
                 200,
                 [ 'Content-Type' => 'text/plain' ],
@@ -81,7 +81,7 @@ test_psgi(
     client => sub {
         my $cb = shift;
 
-        subtest 'decoded_json_content int' => sub {
+        subtest 'json_payload int' => sub {
             my $req = HTTP::Request->new(
                 POST => 'http://localhost/post',
                 [ 'Content-Type' => 'application/json' ], '{"value":42}'
@@ -90,7 +90,7 @@ test_psgi(
             is( $res->content, 42, 'content' );
         };
 
-        subtest 'decoded_json_content string' => sub {
+        subtest 'json_payload string' => sub {
             my $req = HTTP::Request->new(
                 POST => 'http://localhost/post',
                 [ 'Content-Type' => 'application/json' ], '{"value":"foo"}'
@@ -99,7 +99,7 @@ test_psgi(
             is( $res->content, 'foo', 'content' );
         };
 
-        subtest 'decoded_json_content bool' => sub {
+        subtest 'json_payload bool' => sub {
             my $req = HTTP::Request->new(
                 POST => 'http://localhost/post',
                 [ 'Content-Type' => 'application/json' ], '{"value":false}'
@@ -108,7 +108,7 @@ test_psgi(
             is( $res->content, 0, 'content' );
         };
 
-        subtest 'decoded_json_content utf8' => sub {
+        subtest 'json_payload utf8' => sub {
             my $req1 = HTTP::Request->new(
                 POST => 'http://localhost/post',
                 [ 'Content-Type' => 'application/json' ],

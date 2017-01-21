@@ -9,7 +9,7 @@ use Moose::Role;
 use JSON::MaybeXS;
 use Encode;
 
-sub decoded_json_content {
+sub json_payload {
     my $self = shift;
 
     # Web::Request->content will decode content based on
@@ -84,7 +84,7 @@ sub json_error {
   sub create_POST {
       my ($self, $req) = @_;
 
-      my $data    = $req->decoded_json_content;
+      my $data    = $req->json_payload;
       my $created = $self->model->create($data);
       return $self->json_response($created, undef, 201);
   }
@@ -101,9 +101,9 @@ PSGI response.
 
 =head2 METHODS
 
-=head3 decoded_json_content
+=head3 json_payload
 
-  my $perl_hash = $req->decoded_json_content;
+  my $perl_hash = $req->json_payload;
 
 Extracts and decodes a JSON payload from the request.
 
