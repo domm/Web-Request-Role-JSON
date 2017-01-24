@@ -7,7 +7,7 @@ use Plack::Test;
 use Plack::Builder;
 use Web::Request;
 use Encode;
-use JSON::MaybeXS;
+use JSON::MaybeXS qw(encode_json decode_json is_bool);
 use utf8;
 
 # Generate a temp request class based on Web::Request and W:R:Role::JSON
@@ -32,10 +32,15 @@ my $handler = builder {
         # json_payload
         if ( $path eq '/post' ) {
             my $data = $req->json_payload;
+
+            my $val = $data->{value};
+            if ( is_bool($val) ) {
+                $val = $val ? 1 : 0;
+            }
             return [
                 200,
                 [ 'Content-Type' => 'text/plain' ],
-                [ encode_utf8( $data->{value} ) ]
+                [ encode_utf8($val) ]
             ];
         }
 
@@ -55,8 +60,7 @@ my $handler = builder {
                 [ 'X-Test' => 42, 'X-Test' => 43 ] );
         }
         elsif ( $path eq '/get/201' ) {
-            $res =
-                $req->json_response( { value => 'created' }, undef, 201 );
+            $res = $req->json_response( { value => 'created' }, undef, 201 );
         }
 
         # json_error
@@ -64,8 +68,7 @@ my $handler = builder {
             $res = $req->json_error("crash");
         }
         elsif ( $path eq '/error/hash' ) {
-            $res =
-                $req->json_error( { is_error => 1, message => "crash" } );
+            $res = $req->json_error( { is_error => 1, message => "crash" } );
         }
         elsif ( $path eq '/error/406' ) {
             $res = $req->json_error( "flabbergasted", 406 );
