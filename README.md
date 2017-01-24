@@ -4,7 +4,7 @@ Web::Request::Role::JSON - Make handling JSON easier in Web::Request
 
 # VERSION
 
-version 1.001
+version 1.003
 
 # SYNOPSIS
 
@@ -22,7 +22,7 @@ version 1.001
     sub create_POST {
         my ($self, $req) = @_;
 
-        my $data    = $req->decoded_json_content;
+        my $data    = $req->json_payload;
         my $created = $self->model->create($data);
         return $self->json_response($created, undef, 201);
     }
@@ -39,9 +39,9 @@ PSGI response.
 
 ## METHODS
 
-### decoded\_json\_content
+### json\_payload
 
-    my $perl_hash = $req->decoded_json_content;
+    my $perl_hash = $req->json_payload;
 
 Extracts and decodes a JSON payload from the request.
 
