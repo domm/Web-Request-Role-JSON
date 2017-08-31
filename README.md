@@ -76,13 +76,14 @@ valid status code or not. You're old enough to not do stupid things..)
 
 ## PARAMETERS
 
-An optional `content_type` parameter can be added on role application. Modern
-browsers tend to like this better.
+An optional `content_type` parameter can be added on role application to
+restore previous behaviour. Browsers tend to like the 'charset=utf-8' better,
+but you might have your reasons. 
 
     package MyRequest;
     extends 'OX::Request';
     with (
-        'Web::Request::Role::JSON' => { content_type => 'application/json; charset=utf-8' },
+        'Web::Request::Role::JSON' => { content_type => 'application/json' },
     );
 
 # THANKS
