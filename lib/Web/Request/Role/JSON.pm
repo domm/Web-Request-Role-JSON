@@ -12,7 +12,7 @@ use Encode;
 parameter 'content_type' => (
     isa      => 'Str',
     required => 0,
-    default  => 'application/json',
+    default  => 'application/json; charset=utf-8',
 );
 
 role {
@@ -151,13 +151,14 @@ valid status code or not. You're old enough to not do stupid things..)
 
 =head2 PARAMETERS
 
-An optional C<content_type> parameter can be added on role application. Modern
-browsers tend to like this better.
+An optional C<content_type> parameter can be added on role application to
+restore previous behaviour. Browsers tend to like the 'charset=utf-8' better,
+but you might have your reasons. 
 
     package MyRequest;
     extends 'OX::Request';
     with (
-        'Web::Request::Role::JSON' => { content_type => 'application/json; charset=utf-8' },
+        'Web::Request::Role::JSON' => { content_type => 'application/json' },
     );
 
 =head1 THANKS

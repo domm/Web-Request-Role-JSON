@@ -15,7 +15,7 @@ use Moose;
 extends "Web::Request";
 with(
     'Web::Request::Role::JSON' => {
-        content_type => 'application/json; charset=utf-8'
+        content_type => 'application/json'
     }
 );
 
@@ -56,7 +56,7 @@ test_psgi(
             is( $res->code, 200, 'status' );
             is(
                 $res->header('content-type'),
-                'application/json; charset=utf-8',
+                'application/json',
                 'content-type'
             );
             is( decode_utf8( $res->content ), '{"value":"töst"}', 'content' );
