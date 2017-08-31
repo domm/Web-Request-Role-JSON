@@ -4,7 +4,7 @@ Web::Request::Role::JSON - Make handling JSON easier in Web::Request
 
 # VERSION
 
-version 1.004
+version 1.005
 
 # SYNOPSIS
 
@@ -74,15 +74,27 @@ Per default, HTTP status is set to `400`, but you can pass any other
 status as a second argument. (Yes, there is no checking if you pass a
 valid status code or not. You're old enough to not do stupid things..)
 
+## PARAMETERS
+
+An optional `content_type` parameter can be added on role application. Modern
+browsers tend to like this better.
+
+    package MyRequest;
+    extends 'OX::Request';
+    with (
+        'Web::Request::Role::JSON' => { content_type => 'application/json; charset=utf-8' },
+    );
+
 # THANKS
 
 Thanks to
 
 - [validad.com](https://www.validad.com/) for supporting Open Source.
 
-# AUTHOR
+# AUTHORS
 
-Thomas Klausner <domm@cpan.org>
+- Thomas Klausner <domm@cpan.org>
+- Klaus Ita <koki@itascraft.com>
 
 # COPYRIGHT AND LICENSE
 
