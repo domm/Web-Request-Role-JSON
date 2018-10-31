@@ -4,7 +4,7 @@ Web::Request::Role::JSON - Make handling JSON easier in Web::Request
 
 # VERSION
 
-version 1.005
+version 1.006
 
 # SYNOPSIS
 
@@ -68,7 +68,7 @@ is provided, we default to `200`.
 
 Generate a JSON object out of your error message, if the message is a
 plain string. But you can also pass in a data structure that will be
-converte to JSON.
+converted to JSON.
 
 Per default, HTTP status is set to `400`, but you can pass any other
 status as a second argument. (Yes, there is no checking if you pass a
