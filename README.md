@@ -4,7 +4,7 @@ Web::Request::Role::JSON - Make handling JSON easier in Web::Request
 
 # VERSION
 
-version 1.006
+version 1.007
 
 # SYNOPSIS
 
@@ -99,7 +99,7 @@ Thanks to
 
 # COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2017 by Thomas Klausner.
+This software is copyright (c) 2017 - 2021 by Thomas Klausner.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
