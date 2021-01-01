@@ -30,9 +30,9 @@ version 1.007
 # DESCRIPTION
 
 `Web::Request::Role::JSON` provides a few methods that make handling
-JSON in [Web::Request](https://metacpan.org/pod/Web::Request) a bit easier.
+JSON in [Web::Request](https://metacpan.org/pod/Web%3A%3ARequest) a bit easier.
 
-Please note that all methods return a [Web::Response](https://metacpan.org/pod/Web::Response) object.
+Please note that all methods return a [Web::Response](https://metacpan.org/pod/Web%3A%3AResponse) object.
 Depending on the framework you use (or lack thereof), you might have
 to call `finalize` on the response object to turn it into a valid
 PSGI response.
@@ -94,7 +94,7 @@ Thanks to
 
 # AUTHORS
 
-- Thomas Klausner <domm@cpan.org>
+- Thomas Klausner <domm@plix.at>
 - Klaus Ita <koki@itascraft.com>
 
 # COPYRIGHT AND LICENSE

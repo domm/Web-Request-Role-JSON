@@ -153,7 +153,7 @@ valid status code or not. You're old enough to not do stupid things..)
 
 An optional C<content_type> parameter can be added on role application to
 restore previous behaviour. Browsers tend to like the 'charset=utf-8' better,
-but you might have your reasons. 
+but you might have your reasons.
 
     package MyRequest;
     extends 'OX::Request';
