@@ -1,6 +1,8 @@
 Revision history for Web::Request::Role::JSON
 
 {{$NEXT}}
+
+1.008     2021-04-04 16:10:49+02:00
     - move data from global dist.ini into dist (Thomas Klausner)
 
 
